@@ -3,9 +3,12 @@ package com.sachet.departmentservice.service;
 import com.sachet.departmentservice.custom_error.DepartmentNotFoundException;
 import com.sachet.departmentservice.entity.Address;
 import com.sachet.departmentservice.entity.Department;
+import com.sachet.departmentservice.entity.Events;
 import com.sachet.departmentservice.repository.AddressRepository;
 import com.sachet.departmentservice.repository.DepartmentRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
@@ -45,6 +48,16 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         department.setDepartmentAddress(address);
         return departmentRepository.save(department);
+    }
+
+    @Override
+    public Department createEvents(Long departmentId, Events events) throws DepartmentNotFoundException {
+        Department department = findById(departmentId);
+        if (department.getEvents() == null){
+            department.setEvents(new ArrayList<>());
+        }
+        department.getEvents().add(events);
+        return department;
     }
 
     @Override

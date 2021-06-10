@@ -5,6 +5,7 @@ import com.sachet.departmentservice.exception_groups.OnCreate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 public class Department {
@@ -25,6 +26,9 @@ public class Department {
     @Column(name = "department_code")
     @NotNull(message = "Department Code cannot be null!")
     private String departmentCode;
+
+    @OneToMany(mappedBy = "department")
+    private List<Events> events;
 
     public Long getId() {
         return id;
@@ -56,6 +60,14 @@ public class Department {
 
     public void setDepartmentCode(String departmentCode) {
         this.departmentCode = departmentCode;
+    }
+
+    public List<Events> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Events> events) {
+        this.events = events;
     }
 
     @Override
