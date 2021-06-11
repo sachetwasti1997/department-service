@@ -1,45 +1,27 @@
-package com.sachet.departmentservice.entity;
+package com.sachet.userservice.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sachet.departmentservice.entity.Department;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 
-@Entity
-public class Events implements Serializable {
+public class Events {
 
-    private static final long serialVersionUID;
-
-    static {
-        serialVersionUID = 43L;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "event_name")
     private String eventName;
-    @Column(name = "event_start_time")
     private Date eventStartTime;
-    @Column(name = "event_end_time")
     private Date eventEndTime;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "department_id")
     private Department department;
 
-    public Events(Long id, String eventName, Date eventStartTime, Date eventEndTime) {
+    public Events() {
+    }
+
+    public Events(Long id, String eventName, Date eventStartTime, Date eventEndTime, Department department) {
         this.id = id;
         this.eventName = eventName;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
-    }
-
-    public Events() {
+        this.department = department;
     }
 
     public Long getId() {
@@ -48,18 +30,6 @@ public class Events implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-        if (this.department.getEvents() == null){
-            this.department.setEvents(new ArrayList<>());
-        }
-        this.department.getEvents().add(this);
     }
 
     public String getEventName() {
@@ -86,6 +56,14 @@ public class Events implements Serializable {
         this.eventEndTime = eventEndTime;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     @Override
     public String toString() {
         return "Events{" +
@@ -93,6 +71,8 @@ public class Events implements Serializable {
                 ", eventName='" + eventName + '\'' +
                 ", eventStartTime=" + eventStartTime +
                 ", eventEndTime=" + eventEndTime +
+                " "+department+
                 '}';
     }
+
 }

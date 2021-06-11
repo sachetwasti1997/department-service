@@ -1,5 +1,7 @@
 package com.sachet.departmentservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sachet.departmentservice.cutom_constraints.DepartmentName;
 import com.sachet.departmentservice.exception_groups.OnCreate;
 
@@ -27,7 +29,8 @@ public class Department {
     @NotNull(message = "Department Code cannot be null!")
     private String departmentCode;
 
-    @OneToMany(mappedBy = "department")
+    @JsonIgnore
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Events> events;
 
     public Long getId() {
