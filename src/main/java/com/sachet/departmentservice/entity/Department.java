@@ -79,5 +79,4 @@ public class Department {
                 ", departmentCode='" + departmentCode + '\'' +
                 '}';
     }
-    /**Rosy*/
 }
