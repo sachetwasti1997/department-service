@@ -16,56 +16,12 @@ import java.util.Queue;
 @Configuration
 public class JmsConfig {
 
-    //Serialize message content to json using Text Messages
     @Bean
     public MessageConverter messageConverter(){
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
         converter.setTypeIdPropertyName("_type");
         return converter;
-    }
-
-    @Bean
-    public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
-                                                    DefaultJmsListenerContainerFactoryConfigurer configurer) {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-
-        // anonymous class
-        factory.setErrorHandler(new ErrorHandler() {
-            @Override
-            public void handleError(Throwable t) {
-                System.err.println("An error has occurred in the transaction: " + t.getMessage());
-                t.printStackTrace();
-            }
-        });
-
-        // lambda function
-        //factory.setErrorHandler(t -> System.out.println("An error has occurred in the transaction: " ));
-
-        configurer.configure(factory, connectionFactory);
-        return factory;
-    }
-
-    // Only required due to defining myFactory1 in another receiver
-    @Bean
-    public JmsListenerContainerFactory<?> myFactory1(ConnectionFactory connectionFactory,
-                                                     DefaultJmsListenerContainerFactoryConfigurer configurer) {
-        DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-
-        // anonymous class
-        factory.setErrorHandler(new ErrorHandler() {
-            @Override
-            public void handleError(Throwable t) {
-                System.err.println("An error has occurred in the transaction: " + t.getMessage());
-                t.printStackTrace();
-            }
-        });
-
-        // lambda function
-        //factory.setErrorHandler(t -> System.out.println("An error has occurred in the transaction: " ));
-
-        configurer.configure(factory, connectionFactory);
-        return factory;
     }
 
 }

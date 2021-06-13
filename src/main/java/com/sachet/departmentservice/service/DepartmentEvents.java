@@ -29,19 +29,16 @@ public class DepartmentEvents {
         this.departmentService = departmentService;
     }
 
-    @JmsListener(destination = "test-queue", containerFactory = "myFactory")
+    @JmsListener(destination = "test-queue" /*containerFactory = "myFactory"*/)
     @Transactional
     public void listen(Events events)throws JMSException {
         LOGGER.info("Consuming {}", events);
         com.sachet.departmentservice.entity.Events eventsOri = new com.sachet.departmentservice.entity.Events();
-//        eventsOri.setDepartment(events.getDepartment());
         eventsOri.setEventName(events.getEventName());
         eventsOri.setEventStartTime(events.getEventStartTime());
         eventsOri.setEventEndTime(events.getEventEndTime());
-//        System.out.println(events.getProperty("text"));
         try {
             Department department = departmentService.findById(events.getDepartment().getId());
-//            eventsOri.setDepartment(department);
             if (department.getEvents() == null){
                 department.setEvents(new ArrayList<>());
             }
